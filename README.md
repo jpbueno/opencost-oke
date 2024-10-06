@@ -43,7 +43,9 @@ To deploy OpenCost, use Helm to simplify the installation process. Here's how to
 
 1. Add the OpenCost Helm repository:
 
+```bash
 helm repo add opencost <https://opencost.github.io/opencost-helm-chart>
+```
 
 1. Update the repository:
 
