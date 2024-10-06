@@ -165,4 +165,4 @@ By integrating OpenCost with your OCI OKE cluster and configuring custom pricing
 
 With the custom pricing feature of OpenCost, you ensure that the cost estimates align with OCI’s pricing, which is critical for maintaining profitability in a multi-tenant SaaS environment.
 
-<https://chatgpt.com/share/6701e74f-e940-800b-aabf-028ac6609030>
+Author: [JP Santana](mailto:jp.santana@oracle.com)
