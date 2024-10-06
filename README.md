@@ -75,8 +75,7 @@ In OpenCost, configure cost allocation by enabling namespace tracking:
 
 ```bash
 allocation:
-
-tenantNamespace: true # Allocate costs by namespace (one per tenant)
+  tenantNamespace: true  # Allocate costs by namespace (one per tenant)
 ```
 
 This ensures OpenCost allocates CPU, memory, and storage costs based on the usage within each tenant's namespace.
@@ -93,25 +92,15 @@ Here is an example of what the custom pricing file might look like:
 
 ```bash
 {
-
-"CPU": {
-
-"cost": "0.025" // Cost per vCPU hour in USD
-
-},
-
-"memory": {
-
-"cost": "0.003" // Cost per GB hour in USD
-
-},
-
-"storage": {
-
-"cost": "0.0001" // Cost per GB hour in USD
-
-}
-
+  "CPU": {
+    "cost": "0.025"  // Cost per vCPU hour in USD
+  },
+  "memory": {
+    "cost": "0.003"  // Cost per GB hour in USD
+  },
+  "storage": {
+    "cost": "0.0001"  // Cost per GB hour in USD
+  }
 }
 ```
 
@@ -127,46 +116,26 @@ Add the following section under the environment variables (env) in your OpenCost
 
 ```bash
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-name: opencost
-
-namespace: kube-system
-
+  name: opencost
+  namespace: kube-system
 spec:
-
-template:
-
-spec:
-
-containers:
-
-\- name: opencost
-
-image: opencost/opencost:latest
-
-env:
-
-\- name: CUSTOM_PRICING_CONFIG
-
-value: "/config/custom-pricing.json" # Path to your custom pricing file
-
-volumeMounts:
-
-\- name: custom-pricing
-
-mountPath: /config # Mount the volume for custom pricing
-
-volumes:
-
-\- name: custom-pricing
-
-configMap:
-
-name: custom-pricing-config # Assuming you create a ConfigMap for custom pricing
+  template:
+    spec:
+      containers:
+        - name: opencost
+          image: opencost/opencost:latest
+          env:
+            - name: CUSTOM_PRICING_CONFIG
+              value: "/config/custom-pricing.json"  # Path to your custom pricing file
+          volumeMounts:
+            - name: custom-pricing
+              mountPath: /config  # Mount the volume for custom pricing
+      volumes:
+        - name: custom-pricing
+          configMap:
+            name: custom-pricing-config  # Assuming you create a ConfigMap for custom pricing
 ```
 
 Here’s how to create a ConfigMap with the custom pricing information:
