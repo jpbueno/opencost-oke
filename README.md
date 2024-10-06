@@ -49,11 +49,15 @@ helm repo add opencost <https://opencost.github.io/opencost-helm-chart>
 
 1. Update the repository:
 
+```bash
 helm repo update
+```
 
 1. Install OpenCost into the kube-system namespace:
 
+```bash
 helm install opencost opencost/opencost --namespace kube-system
+```
 
 After installation, OpenCost will begin tracking resource usage across all namespaces in your OKE cluster.
 
@@ -69,9 +73,11 @@ Let’s assume your tenants are organized like this:
 
 In OpenCost, configure cost allocation by enabling namespace tracking:
 
+```bash
 allocation:
 
 tenantNamespace: true # Allocate costs by namespace (one per tenant)
+```
 
 This ensures OpenCost allocates CPU, memory, and storage costs based on the usage within each tenant's namespace.
 
@@ -85,6 +91,7 @@ First, you need to define the pricing for your OCI resources, such as CPU, memor
 
 Here is an example of what the custom pricing file might look like:
 
+```bash
 {
 
 "CPU": {
@@ -106,6 +113,7 @@ Here is an example of what the custom pricing file might look like:
 }
 
 }
+```
 
 Replace the pricing values with the current OCI pricing for the specific regions or compute shapes you are using.
 
@@ -117,6 +125,7 @@ To make OpenCost use your custom pricing file, you need to set the CUSTOM_PRICIN
 
 Add the following section under the environment variables (env) in your OpenCost deployment YAML:
 
+```bash
 apiVersion: apps/v1
 
 kind: Deployment
@@ -158,10 +167,13 @@ volumes:
 configMap:
 
 name: custom-pricing-config # Assuming you create a ConfigMap for custom pricing
+```
 
 Here’s how to create a ConfigMap with the custom pricing information:
 
+```bash
 kubectl create configmap custom-pricing-config --from-file=custom-pricing.json -n kube-system
+```
 
 This will ensure that OpenCost pulls the correct pricing for OCI resources, allowing you to allocate costs accurately based on OCI's compute and storage pricing.
 
