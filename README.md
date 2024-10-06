@@ -14,9 +14,9 @@ If you don't have visibility into resource usage per tenant, it becomes hard to:
 - Optimize resources to avoid over-provisioning.
 - Control costs, ensuring profitability for your SaaS business.
 
-**What is OpenCost?**
+## What is OpenCost?
 
-**OpenCost** is an open-source cost monitoring and management tool designed specifically for Kubernetes environments. It tracks the resource usage of your OKE clusters and allocates the costs for CPU, memory, storage, and networking. OpenCost allows you to easily map these costs to your tenants based on Kubernetes namespaces, making it an ideal solution for ISVs with multi-tenant SaaS applications.
+OpenCost is an open-source cost monitoring and management tool designed specifically for Kubernetes environments. It tracks the resource usage of your OKE clusters and allocates the costs for CPU, memory, storage, and networking. OpenCost allows you to easily map these costs to your tenants based on Kubernetes namespaces, making it an ideal solution for ISVs with multi-tenant SaaS applications.
 
 With OpenCost, you can:
 
@@ -25,7 +25,7 @@ With OpenCost, you can:
 3. Optimize resources to ensure efficient use of compute and storage.
 4. Integrate with your billing system to automate tenant billing based on actual usage.
 
-**Deploying OpenCost on OCI OKE for Multi-tenant SaaS Applications**
+## Deploying OpenCost on OCI OKE for Multi-tenant SaaS Applications
 
 Let’s go through the steps to set up OpenCost on your OKE cluster and configure it to manage costs based on Kubernetes namespaces, where each namespace corresponds to a different tenant.
 
@@ -80,7 +80,7 @@ allocation:
 
 This ensures OpenCost allocates CPU, memory, and storage costs based on the usage within each tenant's namespace.
 
-**Setting Up Custom Pricing in OpenCost for OCI Resources**
+## Setting Up Custom Pricing in OpenCost for OCI Resources
 
 When running your workloads on OCI, you’ll want to ensure that OpenCost accurately reflects OCI’s resource pricing. OpenCost’s Custom Pricing feature allows you to define the exact pricing for CPU, memory, and storage, ensuring that your cost reports are aligned with OCI’s pricing model.
 
@@ -150,7 +150,7 @@ This will ensure that OpenCost pulls the correct pricing for OCI resources, allo
 
 Once the deployment is updated, OpenCost will begin using the new pricing information to calculate costs. You can verify that the custom pricing is applied correctly by reviewing OpenCost's output in your monitoring tools like Prometheus or Grafana. The cost data should now reflect the pricing specified in your custom-pricing.json file.
 
-**Cost Optimization Strategies for ISVs**
+## Cost Optimization Strategies for ISVs
 
 After setting up OpenCost and tracking tenant usage, here are some optimization strategies you can implement:
 
@@ -159,7 +159,7 @@ After setting up OpenCost and tracking tenant usage, here are some optimization 
 3. **Implement Horizontal Pod Autoscaling**: Kubernetes’ Horizontal Pod Autoscaler (HPA) can automatically scale the number of pods per tenant based on resource usage. This ensures that you only pay for the resources that are actively being used.
 4. **Monitor Network Egress**: OpenCost can help you track network costs for each tenant. By analyzing network traffic, you can identify potential optimizations, such as reducing cross-region traffic or using OCI’s advanced networking features to minimize costs.
 
-**Conclusion**
+## Conclusion
 
 By integrating OpenCost with your OCI OKE cluster and configuring custom pricing, you can gain precise visibility into your multi-tenant SaaS costs. ISVs can now allocate costs fairly and accurately, ensuring that each tenant's resource usage is reflected in the final bill.
 
