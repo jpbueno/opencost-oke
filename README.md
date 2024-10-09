@@ -1,12 +1,12 @@
 # Manage Multi-tenant SaaS Costs on OCI OKE with OpenCost
 
-Independent Software Vendors (ISVs) providing multi-tenant SaaS solutions on Oracle Cloud Infrastructure (OCI) face the challenge of managing costs effectively while ensuring each tenant is billed accurately. Running Kubernetes clusters on Oracle Kubernetes Engine (OKE) offers scalability, but without the right tools, cost allocation can be complex, especially when tenants share the same infrastructure.
+Independent Software Vendors (ISVs) delivering multi-tenant SaaS solutions on OCI often face the challenge of managing costs efficiently while ensuring accurate billing for each tenant. A common approach among SaaS providers is to run their tenants' workloads on Kubernetes, utilizing Kubernetes Namespaces to logically separate them within the same cluster. When deploying clusters on Oracle Kubernetes Engine (OKE), OCI provides detailed cost data for the overall cluster. However, it is not able to provide granular cost insights for individual Kubernetes components, such as Namespaces, which are crucial for tracking and billing tenant-specific resource usage.
 
-In this guide, we will walk you through an easy-to-deploy solution using **OpenCost**, an open-source cost monitoring tool that helps ISVs track and manage costs for their tenants in a multi-tenant SaaS environment on OCI OKE. We will focus on a real-world example where tenants are separated by Kubernetes namespaces, along with how to configure custom pricing for OCI resources.
+In this tutorial, we will walk you through an easy-to-deploy solution using **OpenCost**, an open-source cost monitoring tool can help OKE customers track and manage costs for their tenants in a multi-tenant environment on OKE.
 
-## Why ISVs Need to Manage Costs for Multi-tenant SaaS Applications
+## Why it is Important for ISVs to Manage Costs for Multi-tenant SaaS Applications
 
-As an ISV, you're likely running SaaS applications where multiple tenants share infrastructure in an OKE cluster. The challenge lies in understanding which tenant is consuming which resources—like CPU, memory, and network bandwidth—so that you can allocate costs accurately.
+As an ISV, you’re likely running SaaS applications where multiple tenants share infrastructure within an OKE cluster. The challenge is gaining visibility into the costs associated with each tenant’s consumption of resources such as CPU, memory, and network bandwidth. Understanding these costs is essential for accurately allocating expenses and ensuring fair billing for each tenant.
 
 If you don't have visibility into resource usage per tenant, it becomes hard to:
 
@@ -20,7 +20,7 @@ OpenCost is an open-source cost monitoring and management tool designed specific
 
 With OpenCost, you can:
 
-1. Allocate costs by namespace (or label) to track individual tenant usage.
+1. Allocate costs by namespace (or any other Kubernetes component) to track individual tenant usage.
 2. Monitor resource consumption (CPU, memory, network) for each tenant in real-time.
 3. Optimize resources to ensure efficient use of compute and storage.
 4. Integrate with your billing system to automate tenant billing based on actual usage.
