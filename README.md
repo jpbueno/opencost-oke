@@ -70,15 +70,34 @@ helm install opencost --repo https://opencost.github.io/opencost-helm-chart open
 helm upgrade opencost --repo https://opencost.github.io/opencost-helm-chart opencost --namespace opencost
 ```
 
-5. Access Opencost:
+5. Update the service so that an external IP address is assigned to the Load Balancer.
 ```bash
 kubectl patch svc opencost -n opencost -p '{"spec": {"type": "LoadBalancer"}}'
+```
 
+To access OpenCost publicly, we need to create a Network Security Group (NSG), configure an ingress rule to open the required port, and associate it with the Load Balancer..
+
+6.  Create the Network Security Group (NSG). Be sure to replace [YOUR_COMPARTMENT_ID] with your actual Compartment ID and [YOUR_VCN_ID] with your VCN ID.
+
+```bash
+oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN_ID] --display-name opencost_nsg
+```
+
+7. Create an ingress rule that allows TCP traffic on port 9090 from the internet.
+oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
+
+
+8. Access your Load Balancer in the OCI Console and attach the newly created Network Security Group (NSG) to it.:
+
+![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
+
+
+9. Get the external IP address and use it to access OpenCost through your browser.
 kubectl get svc -n opencost
 
 http://<EXTERNAL-IP>:9090
 ```
-
+------
 **Step 3: Configure OpenCost for Multi-tenant Cost Allocation**
 
 To allocate costs per tenant, ensure that each tenant is assigned a unique Kubernetes namespace. OpenCost will automatically group costs based on the namespace, allowing you to track the resources consumed by each tenant.
