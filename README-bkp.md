@@ -1,24 +1,10 @@
----
-content-type: tutorial
-duration: PT0H60M0S
-description: Manage Multi-tenant SaaS Costs on OCI OKE with OpenCost
-level: Intermediate
-roles: Application Administrator;Application Developer;Business Analyst;Business Owner;Business User;DevOps Engineer;Developer;IT;Power User;Technology Manager
-lab-id: 765b4ce1-5c77-4c9d-b74b-fe33689c45e2
-products: en/cloud/oracle-cloud-infrastructure/oci;en/cloud/oracle-cloud-infrastructure/oke
-keywords: Cloud Native,Governance,Kubernetes,Monitoring
-inject-note: true
----
-
 # Manage Multi-tenant SaaS Costs on OCI OKE with OpenCost
-
-## Introduction
 
 Independent Software Vendors (ISVs) delivering multi-tenant SaaS solutions on OCI often face the challenge of managing costs efficiently while ensuring accurate billing for each tenant. A common approach among SaaS providers is to run their tenants' workloads on Kubernetes, utilizing Kubernetes Namespaces to logically separate them within the same cluster. When deploying clusters on Oracle Kubernetes Engine (OKE), OCI provides detailed cost data for the overall cluster. However, it is not able to provide granular cost insights for individual Kubernetes components, such as Namespaces, which are crucial for tracking and billing tenant-specific resource usage.
 
 In this tutorial, we will walk you through an easy-to-deploy solution using **OpenCost**, an open-source cost monitoring tool can help OKE customers track and manage costs for their tenants in a multi-tenant environment on OKE.
 
-### Objectives
+## Why it is Important for ISVs to Manage Costs for Multi-tenant SaaS Applications
 
 As an ISV, you’re likely running SaaS applications where multiple tenants share infrastructure within an OKE cluster. The challenge is gaining visibility into the costs associated with each tenant’s consumption of resources such as CPU, memory, and network bandwidth. Understanding these costs is essential for accurately allocating expenses and ensuring fair billing for each tenant.
 
@@ -27,6 +13,8 @@ If you don't have visibility into resource usage per tenant, it becomes hard to:
 - Accurately bill tenants for their resource usage.
 - Optimize resources to avoid over-provisioning.
 - Control costs, ensuring profitability for your SaaS business.
+
+## What is OpenCost?
 
 OpenCost is an open-source cost monitoring and management tool designed specifically for Kubernetes environments. It tracks the resource usage of your OKE clusters and allocates the costs for CPU, memory, storage, and networking. OpenCost allows you to easily map these costs to your tenants based on Kubernetes namespaces, making it an ideal solution for ISVs with multi-tenant SaaS applications.
 
@@ -37,7 +25,11 @@ With OpenCost, you can:
 3. Optimize resources to ensure efficient use of compute and storage.
 4. Integrate with your billing system to automate tenant billing based on actual usage.
 
-### Prerequisites
+## Deploying OpenCost on OCI OKE for Multi-tenant SaaS Applications
+
+Let’s go through the steps to set up OpenCost on your OKE cluster and configure it to manage costs based on Kubernetes namespaces, where each namespace corresponds to a different tenant.
+
+**Step 1: Prerequisites**
 
 Before getting started, make sure you have:
 
@@ -45,9 +37,9 @@ Before getting started, make sure you have:
 - kubectl installed and configured to access your OKE cluster.
 - Helm installed to manage your Kubernetes packages.
 
-<!-- Start your tasks here. Tasks must begin with a heading 2 (##). Create as many task sections as needed. -->
+**Step 2: Install OpenCost on Your OKE Cluster**
 
-## Install OpenCost on Your OKE Cluster
+To deploy OpenCost, use Helm to simplify the installation process. Here's how to install OpenCost:
 
 1. Prometheus is a prerequisite for OpenCost installation. For the installation of Prometheus please use the following command:
 
@@ -93,7 +85,7 @@ To access OpenCost publicly, we need to create a Network Security Group (NSG), c
 oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN_ID] --display-name opencost_nsg
 ```
 
-7. Create an ingress rule that allows TCP traffic on port 9090 from the internet. You can download the opencost-nsg-rule.json file [here](./files/opencost-nsg-rule.json).
+7. Create an ingress rule that allows TCP traffic on port 9090 from the internet. You can download the opencost-nsg-rule.json file [here](https://github.com/jpbueno/opencost-oke/blob/main/opencost-nsg-rule.json).
 
 ```
 oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
@@ -105,16 +97,25 @@ oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg
 oci lb nsg update --load-balancer-id [YOUR_LB_ID] --nsg-ids '[ "[YOUR_NSG_ID]" ]'
 ```
 
-![Attach NSG to Load Balancer](./images/nsg-to-lb.jpg)
+![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
 
 9. Retrieve the external IP address and use it to access OpenCost via your web browser.
 kubectl get svc -n opencost
 
-![OpenCost opened on browser](./images/opencost-browser.jpg)
+![OpenCost opened on browser](./opencost-browser.jpg)
 
 If you'd like to get familiar with the OpenCost UI, this short [video](https://youtu.be/lCP4Ci9Kcdg) provides a great overview.
 
 Congratulations! You've successfully installed and configured OpenCost on your OKE cluster!
+
+## Cost Optimization Strategies for ISVs
+
+After setting up OpenCost and tracking tenant usage, here are some optimization strategies you can implement:
+
+1. **Right-size Resource Allocations**: OpenCost will show you if any tenants are over-provisioned (using too much CPU or memory for their workload). You can use this information to adjust the resource limits for each tenant's pods, ensuring you’re not paying for unused capacity.
+2. **Leverage OCI's Flexible Compute Pricing**: OCI offers preemptible instances that can reduce costs significantly. Non-critical workloads for specific tenants can be shifted to these instances, offering savings.
+3. **Implement Horizontal Pod Autoscaling**: Kubernetes’ Horizontal Pod Autoscaler (HPA) can automatically scale the number of pods per tenant based on resource usage. This ensures that you only pay for the resources that are actively being used.
+4. **Monitor Network Egress**: OpenCost can help you track network costs for each tenant. By analyzing network traffic, you can identify potential optimizations, such as reducing cross-region traffic or using OCI’s advanced networking features to minimize costs.
 
 ## Conclusion
 
@@ -122,14 +123,4 @@ By integrating OpenCost with your OCI OKE cluster and configuring custom pricing
 
 With the custom pricing feature of OpenCost, you ensure that the cost estimates align with OCI’s pricing, which is critical for maintaining profitability in a multi-tenant SaaS environment.
 
-## Related Links
-
-Provide links to additional resources. This section is optional; delete if not needed.
-
-- [Installing on Oracle Cloud Infrastructure (OCI)](https://www.opencost.io/docs/configuration/oracle)
-
-## Acknowledgments
-
-List the names and title of authors and contributors. This section is optional; delete if not needed.
-
-- **Author** - JP Santana, Master Cloud Architect
+Author: [JP Santana](mailto:jp.santana@oracle.com)

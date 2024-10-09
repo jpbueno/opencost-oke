@@ -132,4 +132,5 @@ Provide links to additional resources. This section is optional; delete if not n
 
 List the names and title of authors and contributors. This section is optional; delete if not needed.
 
-- **Author** - JP Santana, Master Cloud Architect
+- **Author** - name (JP Santana), name (Master Cloud Architect)
+
