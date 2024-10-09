@@ -79,7 +79,7 @@ kubectl patch svc opencost -n opencost -p '{"spec": {"type": "LoadBalancer"}}'
 
 To access OpenCost publicly, we need to create a Network Security Group (NSG), configure an ingress rule to open the required port, and associate it with the Load Balancer..
 
-6.  Create the Network Security Group (NSG). Be sure to replace [YOUR_COMPARTMENT_ID] with your actual Compartment ID and [YOUR_VCN_ID] with your VCN ID.
+6.  Create the Network Security Group (NSG). Be sure to replace [YOUR_COMPARTMENT_ID] with your actual Compartment ID and [YOUR_VCN_ID] with your VCN ID. You can retrieve this information from the OCI Console.
 
 ```
 oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN_ID] --display-name opencost_nsg
@@ -91,7 +91,11 @@ oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN
 oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
 ```
 
-8. Access your Load Balancer in the OCI Console and attach the newly created Network Security Group (NSG) to it:
+8. Attach the newly created Network Security Group (NSG) to the Load Balancer. Replace [YOUR_LB_ID] with your Load Balancer ID and [YOUR_NSG_ID] with your Network Security Group ID:
+
+```
+oci lb nsg update --load-balancer-id [YOUR_LB_ID] --nsg-ids '[ "[YOUR_NSG_ID]" ]'
+```
 
 ![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
 
