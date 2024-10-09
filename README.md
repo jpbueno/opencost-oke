@@ -43,7 +43,7 @@ To deploy OpenCost, use Helm to simplify the installation process. Here's how to
 
 1. Prometheus is a prerequisite for OpenCost installation. For the installation of Prometheus please use the following command:
 
-```bash
+```
 helm install prometheus --repo https://prometheus-community.github.io/helm-charts prometheus \
   --namespace prometheus-system --create-namespace \
   --set prometheus-pushgateway.enabled=false \
@@ -53,25 +53,27 @@ helm install prometheus --repo https://prometheus-community.github.io/helm-chart
 
 2. Create the opencost namespace for your installation:
 
-```bash
+```
 kubectl create namespace opencost
 ```
+
 OpenCost will automatically detect OCI as the cloud service provider (CSP) by reading node information from node.spec.providerID. When OCI is detected as the CSP, OpenCost attempts to retrieve pricing data from the OCI Price List API. No API key is required to retrieve the public pricing data.
 
 3. Install OpenCost into the opencost namespace:
 
-```bash
+```
 helm install opencost --repo https://opencost.github.io/opencost-helm-chart opencost --namespace opencost
 ```
 
 4. Update Opencost:
 
-```bash
+```
 helm upgrade opencost --repo https://opencost.github.io/opencost-helm-chart opencost --namespace opencost
 ```
 
 5. Update the service so that an external IP address is assigned to the Load Balancer.
-```bash
+
+```
 kubectl patch svc opencost -n opencost -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
@@ -79,13 +81,13 @@ To access OpenCost publicly, we need to create a Network Security Group (NSG), c
 
 6.  Create the Network Security Group (NSG). Be sure to replace [YOUR_COMPARTMENT_ID] with your actual Compartment ID and [YOUR_VCN_ID] with your VCN ID.
 
-```bash
+```
 oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN_ID] --display-name opencost_nsg
 ```
 
 7. Create an ingress rule that allows TCP traffic on port 9090 from the internet. You can download the opencost-nsg-rule.json file [here](https://github.com/jpbueno/opencost-oke/blob/main/opencost-nsg-rule.json).
 
-```bash
+```
 oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
 ```
 
