@@ -83,7 +83,7 @@ To access OpenCost publicly, we need to create a Network Security Group (NSG), c
 oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN_ID] --display-name opencost_nsg
 ```
 
-7. Create an ingress rule that allows TCP traffic on port 9090 from the internet.
+7. Create an ingress rule that allows TCP traffic on port 9090 from the internet. You can download the opencost-nsg-rule.json file [here](https://github.com/jpbueno/opencost-oke/blob/main/opencost-nsg-rule.json).
 oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
 
 
