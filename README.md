@@ -95,11 +95,12 @@ oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg
 
 ![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
 
-
 9. Retrieve the external IP address and use it to access OpenCost via your web browser.
 kubectl get svc -n opencost
 
 ![OpenCost opened on browser](./opencost-browser.jpg)
+
+If you need to familiarize yourself with OpenCost UI, this [video](https://youtu.be/lCP4Ci9Kcdg) provides a good short overview.
 
 Congratulations! You've successfully installed and configured OpenCost on your OKE cluster!
 
