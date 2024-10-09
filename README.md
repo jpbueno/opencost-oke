@@ -77,7 +77,7 @@ kubectl patch svc opencost -n opencost -p '{"spec": {"type": "LoadBalancer"}}'
 kubectl get svc -n opencost
 
 http://<EXTERNAL-IP>:9090
-```bash
+```
 
 **Step 3: Configure OpenCost for Multi-tenant Cost Allocation**
 
