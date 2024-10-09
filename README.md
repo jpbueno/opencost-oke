@@ -92,11 +92,11 @@ oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg
 ![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
 
 
-9. Get the external IP address and use it to access OpenCost through your browser.
+9. Retrieve the external IP address and use it to access OpenCost via your web browser.
 kubectl get svc -n opencost
 
-http://<EXTERNAL-IP>:9090
-```
+![OpenCost opened on browser](./opencost-browser.jpg)
+
 ------
 **Step 3: Configure OpenCost for Multi-tenant Cost Allocation**
 
