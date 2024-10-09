@@ -41,22 +41,18 @@ Before getting started, make sure you have:
 
 To deploy OpenCost, use Helm to simplify the installation process. Here's how to install OpenCost:
 
-1. Add the OpenCost Helm repository:
+1. Start by giving your local helm installation access to the helm chart:
 
 ```bash
-helm repo add opencost <https://opencost.github.io/opencost-helm-chart>
-```
-
-1. Update the repository:
-
-```bash
+helm repo add opencost-charts https://opencost.github.io/opencost-helm-chart
 helm repo update
 ```
 
-1. Install OpenCost into the kube-system namespace:
+2. Create a values file (example) then install into your kubernetes cluster:
 
 ```bash
-helm install opencost opencost/opencost --namespace kube-system
+touch values.yaml
+helm install opencost opencost-charts/opencost --namespace opencost --create-namespace -f values.yaml
 ```
 
 After installation, OpenCost will begin tracking resource usage across all namespaces in your OKE cluster.
