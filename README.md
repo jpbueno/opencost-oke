@@ -89,7 +89,7 @@ oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN
 oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
 ```
 
-8. Access your Load Balancer in the OCI Console and attach the newly created Network Security Group (NSG) to it.:
+8. Access your Load Balancer in the OCI Console and attach the newly created Network Security Group (NSG) to it:
 
 ![Attach NSG to Load Balancer](./nsg-to-lb.jpg)
 
