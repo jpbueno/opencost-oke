@@ -124,8 +124,6 @@ With the custom pricing feature of OpenCost, you ensure that the cost estimates 
 
 ## Related Links
 
-Provide links to additional resources. This section is optional; delete if not needed.
-
 - [Installing on Oracle Cloud Infrastructure (OCI)](https://www.opencost.io/docs/configuration/oracle)
 
 ## Acknowledgments
