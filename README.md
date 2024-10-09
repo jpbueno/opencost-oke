@@ -41,21 +41,43 @@ Before getting started, make sure you have:
 
 To deploy OpenCost, use Helm to simplify the installation process. Here's how to install OpenCost:
 
-1. Start by giving your local helm installation access to the helm chart:
+1. Prometheus is a prerequisite for OpenCost installation. For the installation of Prometheus please use the following command:
 
 ```bash
-helm repo add opencost-charts https://opencost.github.io/opencost-helm-chart
-helm repo update
+helm install prometheus --repo https://prometheus-community.github.io/helm-charts prometheus \
+  --namespace prometheus-system --create-namespace \
+  --set prometheus-pushgateway.enabled=false \
+  --set alertmanager.enabled=false \
+  -f https://raw.githubusercontent.com/opencost/opencost/develop/kubernetes/prometheus/extraScrapeConfigs.yaml
 ```
 
-2. Create a values file (example) then install into your kubernetes cluster:
+2. Create the opencost namespace for your installation:
 
 ```bash
-touch values.yaml
-helm install opencost opencost-charts/opencost --namespace opencost --create-namespace -f values.yaml
+kubectl create namespace opencost
+```
+OpenCost will automatically detect OCI as the cloud service provider (CSP) by reading node information from node.spec.providerID. When OCI is detected as the CSP, OpenCost attempts to retrieve pricing data from the OCI Price List API. No API key is required to retrieve the public pricing data.
+
+3. Install OpenCost into the opencost namespace:
+
+```bash
+helm install opencost --repo https://opencost.github.io/opencost-helm-chart opencost --namespace opencost
 ```
 
-After installation, OpenCost will begin tracking resource usage across all namespaces in your OKE cluster.
+4. Update Opencost:
+
+```bash
+helm upgrade opencost --repo https://opencost.github.io/opencost-helm-chart opencost --namespace opencost
+```
+
+5. Access Opencost:
+```bash
+kubectl patch svc opencost -n opencost -p '{"spec": {"type": "LoadBalancer"}}'
+
+kubectl get svc -n opencost
+
+http://<EXTERNAL-IP>:9090
+```bash
 
 **Step 3: Configure OpenCost for Multi-tenant Cost Allocation**
 
