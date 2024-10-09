@@ -100,7 +100,7 @@ kubectl get svc -n opencost
 
 ![OpenCost opened on browser](./opencost-browser.jpg)
 
-If you need to familiarize yourself with OpenCost UI, this [video](https://youtu.be/lCP4Ci9Kcdg) provides a good short overview.
+If you'd like to get familiar with the OpenCost UI, this short [video](https://youtu.be/lCP4Ci9Kcdg) provides a great overview.
 
 Congratulations! You've successfully installed and configured OpenCost on your OKE cluster!
 
