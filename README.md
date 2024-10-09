@@ -84,8 +84,10 @@ oci network nsg create --compartment-id [YOUR_COMPARTMENT_ID] --vcn-id [YOUR_VCN
 ```
 
 7. Create an ingress rule that allows TCP traffic on port 9090 from the internet. You can download the opencost-nsg-rule.json file [here](https://github.com/jpbueno/opencost-oke/blob/main/opencost-nsg-rule.json).
-oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
 
+```bash
+oci network nsg rules add --nsg-id [YOUR_NSG_ID] --from-json file://opencost-nsg-rule.json
+```
 
 8. Access your Load Balancer in the OCI Console and attach the newly created Network Security Group (NSG) to it.:
 
